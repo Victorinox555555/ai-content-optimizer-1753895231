@@ -42,10 +42,30 @@ class DatabaseManager:
 
 class StripeManager:
     def create_checkout_session(self, user_id, user_email): 
-        class MockSession: 
-            url = "/pricing"
-        return MockSession()
-    def handle_webhook(self, request): return "OK"
+        import stripe
+        stripe.api_key = os.getenv('STRIPE_SECRET_KEY')
+        
+        try:
+            checkout_session = stripe.checkout.Session.create(
+                payment_method_types=['card'],
+                line_items=[{
+                    'price': os.getenv('PRICE_ID', 'price_1RcdcyEfbTvI2h4o4PVLTykg'),
+                    'quantity': 1,
+                }],
+                mode='subscription',
+                success_url='https://ai-content-optimizer-1753895231.onrender.com/dashboard?session_id={CHECKOUT_SESSION_ID}',
+                cancel_url='https://ai-content-optimizer-1753895231.onrender.com/pricing',
+                customer_email=user_email,
+            )
+            return checkout_session
+        except Exception as e:
+            print(f"Stripe error: {e}")
+            class MockSession: 
+                url = "/pricing"
+            return MockSession()
+    
+    def handle_webhook(self, request): 
+        return "OK"
 
 auth_manager = AuthManager()
 db_manager = DatabaseManager()
