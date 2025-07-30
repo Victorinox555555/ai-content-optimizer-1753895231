@@ -63,25 +63,7 @@ def create_app():
     @app.route('/')
     def index():
         """Homepage"""
-        return '''<!DOCTYPE html>
-<html>
-<head>
-    <title>AI-Powered Content Optimizer</title>
-    <style>
-        body { font-family: Arial, sans-serif; max-width: 800px; margin: 0 auto; padding: 20px; }
-        .btn { background: #007bff; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px; }
-        .container { text-align: center; margin: 50px 0; }
-    </style>
-</head>
-<body>
-    <div class="container">
-        <h1>🚀 AI-Powered Content Optimizer</h1>
-        <p>Intelligent content optimization using OpenAI for better engagement and SEO</p>
-        <a href="/signup" class="btn">Get Started</a>
-        <a href="/login" class="btn">Login</a>
-    </div>
-</body>
-</html>'''
+        return render_template('index.html')
 
     @app.route('/signup', methods=['GET', 'POST'])
     def signup():
@@ -91,30 +73,13 @@ def create_app():
             password = request.form.get('password')
             
             if auth_manager.create_user(email, password):
+                flash('Account created successfully! Please login.', 'success')
                 return redirect(url_for('login'))
             else:
-                return "Email already exists or invalid data. <a href='/signup'>Try again</a>"
+                flash('Email already exists or invalid data. Please try again.', 'error')
+                return render_template('signup.html')
         
-        return '''<!DOCTYPE html>
-<html>
-<head>
-    <title>Sign Up - AI Content Optimizer</title>
-    <style>
-        body { font-family: Arial, sans-serif; max-width: 400px; margin: 100px auto; padding: 20px; }
-        input { width: 100%; padding: 10px; margin: 10px 0; border: 1px solid #ddd; border-radius: 5px; }
-        .btn { background: #007bff; color: white; padding: 10px 20px; border: none; border-radius: 5px; width: 100%; }
-    </style>
-</head>
-<body>
-    <h2>Create Account</h2>
-    <form method="POST">
-        <input type="email" name="email" placeholder="Email" required>
-        <input type="password" name="password" placeholder="Password" required>
-        <button type="submit" class="btn">Sign Up</button>
-    </form>
-    <p><a href="/login">Already have an account? Login</a></p>
-</body>
-</html>'''
+        return render_template('signup.html')
 
     @app.route('/login', methods=['GET', 'POST'])
     def login():
@@ -127,30 +92,13 @@ def create_app():
             if user:
                 session['user_id'] = user['id']
                 session['user_email'] = user['email']
+                flash('Welcome back!', 'success')
                 return redirect(url_for('dashboard'))
             else:
-                return "Invalid email or password. <a href='/login'>Try again</a>"
+                flash('Invalid email or password. Please try again.', 'error')
+                return render_template('login.html')
         
-        return '''<!DOCTYPE html>
-<html>
-<head>
-    <title>Login - AI Content Optimizer</title>
-    <style>
-        body { font-family: Arial, sans-serif; max-width: 400px; margin: 100px auto; padding: 20px; }
-        input { width: 100%; padding: 10px; margin: 10px 0; border: 1px solid #ddd; border-radius: 5px; }
-        .btn { background: #007bff; color: white; padding: 10px 20px; border: none; border-radius: 5px; width: 100%; }
-    </style>
-</head>
-<body>
-    <h2>Login</h2>
-    <form method="POST">
-        <input type="email" name="email" placeholder="Email" required>
-        <input type="password" name="password" placeholder="Password" required>
-        <button type="submit" class="btn">Login</button>
-    </form>
-    <p><a href="/signup">Don't have an account? Sign up</a></p>
-</body>
-</html>'''
+        return render_template('login.html')
 
     @app.route('/logout')
     def logout():
@@ -163,64 +111,11 @@ def create_app():
     def dashboard():
         """User dashboard"""
         if 'user_id' not in session:
+            flash('Please login to access the dashboard.', 'warning')
             return redirect(url_for('login'))
         
         user_email = session.get('user_email', 'User')
-        return f'''<!DOCTYPE html>
-<html>
-<head>
-    <title>Dashboard - AI Content Optimizer</title>
-    <style>
-        body {{ font-family: Arial, sans-serif; max-width: 800px; margin: 0 auto; padding: 20px; }}
-        .btn {{ background: #007bff; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px; border: none; }}
-        textarea {{ width: 100%; height: 150px; padding: 10px; border: 1px solid #ddd; border-radius: 5px; }}
-        .result {{ background: #f8f9fa; padding: 15px; border-radius: 5px; margin: 20px 0; }}
-    </style>
-</head>
-<body>
-    <h1>Welcome, {user_email}!</h1>
-    <h2>AI Content Optimizer</h2>
-    
-    <form id="optimizeForm">
-        <textarea id="content" placeholder="Enter your content to optimize..."></textarea>
-        <br><br>
-        <button type="submit" class="btn">Optimize Content</button>
-    </form>
-    
-    <div id="result" class="result" style="display: none;">
-        <h3>Optimized Content:</h3>
-        <div id="optimizedContent"></div>
-    </div>
-    
-    <p><a href="/logout">Logout</a></p>
-    
-    <script>
-        document.getElementById('optimizeForm').addEventListener('submit', async function(e) {{
-            e.preventDefault();
-            const content = document.getElementById('content').value;
-            
-            try {{
-                const response = await fetch('/api/optimize', {{
-                    method: 'POST',
-                    headers: {{ 'Content-Type': 'application/json' }},
-                    body: JSON.stringify({{ content: content }})
-                }});
-                
-                const data = await response.json();
-                
-                if (data.success) {{
-                    document.getElementById('optimizedContent').innerHTML = data.optimized_content;
-                    document.getElementById('result').style.display = 'block';
-                }} else {{
-                    alert('Optimization failed: ' + data.error);
-                }}
-            }} catch (error) {{
-                alert('Error: ' + error.message);
-            }}
-        }});
-    </script>
-</body>
-</html>'''
+        return render_template('dashboard.html', user_email=user_email)
 
     @app.route('/api/optimize', methods=['POST'])
     def optimize_content():
@@ -272,26 +167,7 @@ def create_app():
     @app.route('/pricing')
     def pricing():
         """Pricing page"""
-        return '''<!DOCTYPE html>
-<html>
-<head>
-    <title>Pricing - AI Content Optimizer</title>
-    <style>
-        body { font-family: Arial, sans-serif; max-width: 800px; margin: 0 auto; padding: 20px; }
-        .btn { background: #007bff; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px; }
-        .pricing-card { border: 1px solid #ddd; padding: 20px; margin: 20px 0; border-radius: 5px; }
-    </style>
-</head>
-<body>
-    <h1>Pricing Plans</h1>
-    <div class="pricing-card">
-        <h3>Pro Plan - $9.99/month</h3>
-        <p>Unlimited content optimization</p>
-        <a href="/subscribe" class="btn">Subscribe</a>
-    </div>
-    <p><a href="/">Back to Home</a></p>
-</body>
-</html>'''
+        return render_template('pricing.html')
 
     @app.route('/subscribe', methods=['POST'])
     def subscribe():
@@ -338,15 +214,3 @@ if __name__ == '__main__':
     print(f"🔑 Secret Key: {'✅ Loaded' if os.getenv('SECRET_KEY') else '❌ Using default'}")
     
     app.run(host='0.0.0.0', port=port, debug=False)
-
-if __name__ == "__main__":
-    try:
-        init_db()
-        print("✅ Database initialized")
-    except Exception as e:
-        print(f"⚠️  Database initialization warning: {e}")
-    
-    port = int(os.environ.get("PORT", 5000))
-    
-    print(f"🚀 Starting Flask app on port {port}")
-    app.run(host="0.0.0.0", port=port, debug=False)
