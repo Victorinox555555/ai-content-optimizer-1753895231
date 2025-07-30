@@ -1,59 +1,65 @@
 {% extends "base.html" %}
 
-{% block title %}Dashboard - Test-frontend_build{% endblock %}
+{% block title %}Dashboard - AI-Powered Content Optimizer{% endblock %}
 
 {% block content %}
-<div class="min-h-screen bg-gray-50">
+<div class="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900">
     <div class="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
         <div class="px-4 py-6 sm:px-0">
             <div class="mb-8">
-                <h1 class="text-3xl font-bold text-gray-900">Dashboard</h1>
-                <p class="mt-2 text-sm text-gray-600">Welcome back! Here's what's happening with your account.</p>
+                <h1 class="text-3xl font-bold bg-gradient-to-r from-primary-400 to-accent-400 bg-clip-text text-transparent">Dashboard</h1>
+                <p class="mt-2 text-sm text-gray-300">Welcome back! Here's what's happening with your account.</p>
             </div>
             
             <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-                <div class="bg-white overflow-hidden shadow rounded-lg">
+                <div class="bg-white/10 backdrop-blur-xl overflow-hidden shadow-lg rounded-xl border border-primary-200/20">
                     <div class="p-5">
                         <div class="flex items-center">
                             <div class="flex-shrink-0">
-                                <span class="text-2xl">📊</span>
+                                <div class="w-10 h-10 bg-gradient-to-r from-primary-500 to-accent-500 rounded-lg flex items-center justify-center">
+                                    <span class="text-white text-lg">📊</span>
+                                </div>
                             </div>
                             <div class="ml-5 w-0 flex-1">
                                 <dl>
-                                    <dt class="text-sm font-medium text-gray-500 truncate">Current Plan</dt>
-                                    <dd class="text-lg font-medium text-gray-900">Free</dd>
+                                    <dt class="text-sm font-medium text-gray-400 truncate">Current Plan</dt>
+                                    <dd class="text-lg font-medium text-white">Free</dd>
                                 </dl>
                             </div>
                         </div>
                     </div>
                 </div>
                 
-                <div class="bg-white overflow-hidden shadow rounded-lg">
+                <div class="bg-white/10 backdrop-blur-xl overflow-hidden shadow-lg rounded-xl border border-primary-200/20">
                     <div class="p-5">
                         <div class="flex items-center">
                             <div class="flex-shrink-0">
-                                <span class="text-2xl">✅</span>
+                                <div class="w-10 h-10 bg-gradient-to-r from-primary-500 to-accent-500 rounded-lg flex items-center justify-center">
+                                    <span class="text-white text-lg">✅</span>
+                                </div>
                             </div>
                             <div class="ml-5 w-0 flex-1">
                                 <dl>
-                                    <dt class="text-sm font-medium text-gray-500 truncate">Status</dt>
-                                    <dd class="text-lg font-medium text-gray-900">Active</dd>
+                                    <dt class="text-sm font-medium text-gray-400 truncate">Status</dt>
+                                    <dd class="text-lg font-medium text-white">Active</dd>
                                 </dl>
                             </div>
                         </div>
                     </div>
                 </div>
                 
-                <div class="bg-white overflow-hidden shadow rounded-lg">
+                <div class="bg-white/10 backdrop-blur-xl overflow-hidden shadow-lg rounded-xl border border-primary-200/20">
                     <div class="p-5">
                         <div class="flex items-center">
                             <div class="flex-shrink-0">
-                                <span class="text-2xl">🚀</span>
+                                <div class="w-10 h-10 bg-gradient-to-r from-primary-500 to-accent-500 rounded-lg flex items-center justify-center">
+                                    <i class="fas fa-brain text-white"></i>
+                                </div>
                             </div>
                             <div class="ml-5 w-0 flex-1">
                                 <dl>
-                                    <dt class="text-sm font-medium text-gray-500 truncate">Usage</dt>
-                                    <dd class="text-lg font-medium text-gray-900">0/100</dd>
+                                    <dt class="text-sm font-medium text-gray-400 truncate">Usage</dt>
+                                    <dd class="text-lg font-medium text-white">0/100</dd>
                                 </dl>
                             </div>
                         </div>
@@ -61,21 +67,66 @@
                 </div>
             </div>
             
-            <div class="bg-white shadow rounded-lg p-6">
-                <h3 class="text-lg font-medium text-gray-900 mb-4">Quick Actions</h3>
+            <div class="bg-white/10 backdrop-blur-xl shadow-lg rounded-xl p-6 border border-primary-200/20 mb-8">
+                <h3 class="text-lg font-medium text-white mb-4">Quick Actions</h3>
                 <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-                    <button class="bg-indigo-600 text-white px-4 py-2 rounded-md hover:bg-indigo-700">
+                    <button class="bg-gradient-to-r from-primary-500 to-accent-500 text-white px-4 py-2 rounded-xl hover:from-primary-600 hover:to-accent-600 transition-all duration-300 transform hover:scale-105">
                         Main Feature
                     </button>
-                    <button class="bg-gray-600 text-white px-4 py-2 rounded-md hover:bg-gray-700">
+                    <button class="bg-gray-500 text-white px-4 py-2 rounded-xl hover:bg-gray-600 transition-all duration-300">
                         Settings
                     </button>
-                    <a href="/pricing" class="bg-green-600 text-white px-4 py-2 rounded-md hover:bg-green-700 text-center">
+                    <a href="/pricing" class="bg-accent-500 text-white px-4 py-2 rounded-xl hover:bg-accent-600 text-center transition-all duration-300 transform hover:scale-105">
                         Upgrade Plan
                     </a>
+                </div>
+            </div>
+            
+            <div class="bg-white/10 backdrop-blur-xl shadow-lg rounded-xl p-6 border border-primary-200/20">
+                <h3 class="text-lg font-medium text-white mb-4">AI Content Optimizer</h3>
+                
+                <form id="optimizeForm">
+                    <textarea id="content" placeholder="Enter your content to optimize..." class="w-full h-32 p-4 bg-white/10 backdrop-blur-xl border border-primary-300/30 rounded-xl text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500"></textarea>
+                    <br><br>
+                    <button type="submit" class="bg-gradient-to-r from-primary-500 to-accent-500 text-white px-6 py-3 rounded-xl hover:from-primary-600 hover:to-accent-600 transition-all duration-300 transform hover:scale-105">
+                        Optimize Content
+                    </button>
+                </form>
+                
+                <div id="result" class="mt-6 p-4 bg-white/5 backdrop-blur-xl rounded-xl border border-primary-200/20" style="display: none;">
+                    <h4 class="text-white font-medium mb-2">Optimized Content:</h4>
+                    <div id="optimizedContent" class="text-gray-300"></div>
                 </div>
             </div>
         </div>
     </div>
 </div>
+
+{% block extra_scripts %}
+<script>
+    document.getElementById('optimizeForm').addEventListener('submit', async function(e) {
+        e.preventDefault();
+        const content = document.getElementById('content').value;
+        
+        try {
+            const response = await fetch('/api/optimize', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ content: content })
+            });
+            
+            const data = await response.json();
+            
+            if (data.success) {
+                document.getElementById('optimizedContent').innerHTML = data.optimized_content;
+                document.getElementById('result').style.display = 'block';
+            } else {
+                alert('Optimization failed: ' + data.error);
+            }
+        } catch (error) {
+            alert('Error: ' + error.message);
+        }
+    });
+</script>
+{% endblock %}
 {% endblock %}
